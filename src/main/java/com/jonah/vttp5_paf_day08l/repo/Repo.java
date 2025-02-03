@@ -135,8 +135,36 @@ public class Repo {
         Aggregation pipeline = Aggregation.newAggregation(matchUser,lookupGames,unwindGames,sortByRating,limiting,groupByName);
 
         AggregationResults<Document> results = template.aggregate(pipeline, "comment", Document.class);
-
+        
         return results.getMappedResults();
 
     }
 }
+
+
+/* 
+                db.comment.aggregate([
+                {$match:{user:"deinstein"}},
+            {$lookup:{
+                from: 'games',
+                foreignField: "gid",
+                localField: "gid",
+                as: "GAME",
+                pipeline:[
+                {$sort:{user:1, rating:1}}       THIS ALLOWS SORTING IN 2 variables, username and rating.
+                ]
+            }},
+            {$unwind: "$GAME"},
+            {$sort:{rating:-1}},
+            {$limit:3},
+                {$group:{
+                    _id: "$user",
+                    count:{$sum: 1},
+                    game_comment_rating:{$push:{Game:"$GAME.name", comment: "$c_text",rating: "$rating"}},
+                    game:{$push:"$GAME.name"},
+                    comment:{$push:"$c_text"},
+                    rating:{$push:"$rating"}
+                }}
+
+            ])
+     */

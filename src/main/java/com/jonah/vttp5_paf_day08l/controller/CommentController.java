@@ -31,6 +31,11 @@ public class CommentController {
             limit = "1";
         }
         List<Document> result = commentService.getUserComments(user, Long.parseLong(limit));
+
+
+/*         if(result.size()<=0){
+            return ResponseEntity.status(404).body("NOT FOUND");
+        } */
         System.out.println("THE RESULT FOR USER COMMENTS IS:" + result.toString());
 
         return ResponseEntity.ok().body(result);
