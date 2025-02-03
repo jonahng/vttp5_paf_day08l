@@ -24,6 +24,8 @@ public class AggregateExample implements CommandLineRunner{
     public void run(String... args){
         List<Document> results = repo.findGamesByName("Bootleggers");
         System.out.println("THE RESULTS ARE" + results);
+
+        
     }
     
 }
