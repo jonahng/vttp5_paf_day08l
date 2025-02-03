@@ -95,6 +95,7 @@ public class Repo {
 
     /* 
                 db.comment.aggregate([
+                {$match:{user:"deinstein"}},
             {$lookup:{
                 from: 'games',
                 foreignField: "gid",
@@ -102,6 +103,8 @@ public class Repo {
                 as: "GAME"
             }},
             {$unwind: "$GAME"},
+            {$sort:{rating:-1}},
+            {$limit:3},
                 {$group:{
                     _id: "$user",
                     count:{$sum: 1},
