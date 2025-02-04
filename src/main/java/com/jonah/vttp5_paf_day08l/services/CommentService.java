@@ -17,5 +17,12 @@ public class CommentService {
         return repo.getUserComments(user, limit);
     }
     
+
+    public List<Document> getGameReviews(String gameId){
+        return repo.getAllReviewsForGameId(gameId);
+    }
     
+    public List<Document> getMinMaxReviews(Boolean highest){
+        return repo.getHighestLowestReview(highest);
+    }
 }

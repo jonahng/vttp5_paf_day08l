@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jonah.vttp5_paf_day08l.services.CommentService;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("")
 public class CommentController {
     @Autowired
     CommentService commentService;
 
 
-    @GetMapping("/{user}")
+    @GetMapping("/api/comments/{user}")
     public ResponseEntity<List<Document>> getUserComments(@PathVariable("user") String user, @RequestParam MultiValueMap<String,String> params){
         //example of how to deal with multiple request params and set a default value for each param.   
         String limit = params.getFirst("limit");
@@ -41,6 +41,21 @@ public class CommentController {
         return ResponseEntity.ok().body(result);
 
         
+    }
+
+    @GetMapping("/game/{game_id}")
+    public ResponseEntity<List<Document>> getGameReviews(@PathVariable("game_id") String gameId){
+        return ResponseEntity.ok().body(commentService.getGameReviews(gameId));
+    }
+
+    @GetMapping("/games/highest")
+    public ResponseEntity<List<Document>> getHighestReviews(){
+        return ResponseEntity.ok().body(commentService.getMinMaxReviews(true));
+    }
+
+    @GetMapping("/games/lowest")
+    public ResponseEntity<List<Document>> getLowestReviews(){
+        return ResponseEntity.ok().body(commentService.getMinMaxReviews(false));
     }
     
 }
